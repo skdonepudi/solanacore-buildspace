@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { StudentIntro } from '../models/StudentIntro'
 import { useState } from 'react'
-import { Box, Button, FormControl, FormLabel, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Textarea } from '@chakra-ui/react'
+import { Box, Button, FormControl, FormLabel, Input, Textarea } from '@chakra-ui/react'
 import * as web3 from '@solana/web3.js'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 
@@ -11,8 +11,9 @@ export const Form: FC = () => {
     const [name, setName] = useState('')
     const [message, setMessage] = useState('')
 
-    const { connection } = useConnection();
-    const { publicKey, sendTransaction } = useWallet();
+    const {connection} = useConnection();
+    const {publicKey, sendTransaction} = useWallet();
+
 
     const handleSubmit = (event: any) => {
         event.preventDefault()
@@ -21,11 +22,11 @@ export const Form: FC = () => {
     }
 
     const handleTransactionSubmit = async (studentIntro: StudentIntro) => {
+
         if (!publicKey) {
-            alert('Please connect your wallet!')
+            alert('Connect your wallet lol')
             return
         }
-
         const buffer = studentIntro.serialize()
         const transaction = new web3.Transaction()
 
@@ -37,34 +38,38 @@ export const Form: FC = () => {
         const instruction = new web3.TransactionInstruction({
             keys: [
                 {
+                    // Your account will pay the fees, so it's writing to the network
                     pubkey: publicKey,
                     isSigner: true,
                     isWritable: false,
                 },
                 {
+                    // The PDA will store the movie review 
                     pubkey: pda,
                     isSigner: false,
                     isWritable: true
                 },
                 {
+                    // The system program will be used for creating the PDA
                     pubkey: web3.SystemProgram.programId,
                     isSigner: false,
                     isWritable: false
                 }
             ],
-            data: buffer,
-            programId: new web3.PublicKey(STUDENT_INTRO_PROGRAM_ID)
+            programId: new web3.PublicKey(STUDENT_INTRO_PROGRAM_ID),
+            data: buffer
         })
 
         transaction.add(instruction)
-
-        try {
+        try{
             let txid = await sendTransaction(transaction, connection)
-            alert(`Transaction submitted: https://explorer.solana.com/tx/${txid}?cluster=devnet`)
+            alert('Transaction successful, transaction id: ' + txid)
             console.log(`Transaction submitted: https://explorer.solana.com/tx/${txid}?cluster=devnet`)
-        } catch (e) {
-            console.log(JSON.stringify(e))
-            alert(JSON.stringify(e))
+        }
+        catch(err)
+        {
+            alert('Transaction failed. View console log for more details')
+            console.log(err)
         }
     }
 
