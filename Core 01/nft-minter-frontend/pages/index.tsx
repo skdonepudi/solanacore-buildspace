@@ -7,7 +7,7 @@ import Disconnected from "../components/Disconnected"
 import { connected } from "process"
 import { useWallet } from "@solana/wallet-adapter-react"
 import Connected from "../components/Connected"
-
+import HomeBackground from "../assets/home-background.svg"
 
 const Home: NextPage = () => {
   const {connected} = useWallet()
@@ -22,7 +22,7 @@ const Home: NextPage = () => {
       <Box
         w="full"
         h="calc(100vh)"
-        bgImage={connected ? "" : "url('/images/home-backgorund.svg')"}
+        bgImage={connected ? "" : "url(/images/home-background.svg)"}
         backgroundPosition="center"
       >
         <Stack w="full" h="calc(100vh)" justify="center">

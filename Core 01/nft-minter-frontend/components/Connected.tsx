@@ -14,7 +14,7 @@ import { ArrowForwardIcon } from "@chakra-ui/icons"
 
 const Connected: FC = () => {
     return (
-      <VStack spacing={20}>
+      <VStack spacing={10}>
         <Container>
           <VStack spacing={8}>
             <Heading
@@ -34,12 +34,12 @@ const Connected: FC = () => {
             </Text>
           </VStack>
         </Container> 
-    <HStack spacing={10}>
-        <Image src="avatar1.png" alt="" />
-        <Image src="avatar2.png" alt="" />
-        <Image src="avatar3.png" alt="" />
-        <Image src="avatar4.png" alt="" />
-        <Image src="avatar5.png" alt="" />
+    <HStack spacing={4}>
+        <Image src="images/avatar1.png" alt="" />
+        <Image src="images/avatar2.png" alt="" />
+        <Image src="images/avatar3.png" alt="" />
+        <Image src="images/avatar4.png" alt="" />
+        <Image src="images/avatar5.png" alt="" />
       </HStack>
 
       <Button bgColor="blue" color="white" maxW="380px">
