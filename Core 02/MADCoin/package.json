@@ -14,7 +14,7 @@
         "typescript": "^4.6.4"
     },
     "dependencies": {
-        "@metaplex-foundation/js": "^0.17.5",
+        "@metaplex-foundation/js": "^0.17.6",
         "@metaplex-foundation/mpl-token-metadata": "^2.5.1",
         "@solana/spl-token": "^0.2.0",
         "@solana/web3.js": "^1.43.1",
