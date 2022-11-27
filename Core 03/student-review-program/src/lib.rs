@@ -14,9 +14,8 @@ use std::convert::TryInto;
 pub mod instruction;
 pub mod state;
 use borsh::BorshSerialize;
-use instruction::MovieInstruction;
-use state::MovieAccountState;
-
+use instruction::StudentIntro;
+use state::StudentIntroState;
 entrypoint!(process_instruction);
 
 pub fn process_instruction(
@@ -24,28 +23,24 @@ pub fn process_instruction(
     accounts: &[AccountInfo],
     instruction_data: &[u8],
 ) -> ProgramResult {
-    let instruction = MovieInstruction::unpack(instruction_data)?;
+    let instruction = StudentIntro::unpack(instruction_data)?;
 
     match instruction {
-        MovieInstruction::AddMovieReview {
-            title,
-            rating,
-            description,
-        } => add_movie_review(program_id, accounts, title, rating, description),
+        StudentIntro::AddStudentIntro { name, message } => {
+            add_student_intro(program_id, accounts, name, message)
+        }
     }
 }
 
-pub fn add_movie_review(
+pub fn add_student_intro(
     program_id: &Pubkey,
     accounts: &[AccountInfo],
-    title: String,
-    rating: u8,
-    description: String,
+    name: String,
+    message: String,
 ) -> ProgramResult {
-    msg!("Adding movie review...");
-    msg!("Title: {}", title);
-    msg!("Rating: {}", rating);
-    msg!("Description: {}", description);
+    msg!("Adding Student Intro...");
+    msg!("Name: {}", name);
+    msg!("Message: {}", message);
 
     // Get Account iterator
     let account_info_iter = &mut accounts.iter();
@@ -56,11 +51,12 @@ pub fn add_movie_review(
     let system_program = next_account_info(account_info_iter)?;
 
     let (pda, bump_seed) = Pubkey::find_program_address(
-        &[initializer.key.as_ref(), title.as_bytes().as_ref()],
+        &[initializer.key.as_ref(), name.as_bytes().as_ref()],
         program_id,
     );
+
     // Calculate account size required
-    let account_len: usize = 1 + 1 + (4 + title.len()) + (4 + description.len());
+    let account_len: usize = 1 + 1 + (4 + name.len()) + (4 + message.len());
 
     // Calculate rent required
     let rent = Rent::get()?;
@@ -82,7 +78,7 @@ pub fn add_movie_review(
         ],
         &[&[
             initializer.key.as_ref(),
-            title.as_bytes().as_ref(),
+            name.as_bytes().as_ref(),
             &[bump_seed],
         ]],
     )?;
@@ -91,12 +87,11 @@ pub fn add_movie_review(
 
     msg!("unpacking state account");
     let mut account_data =
-        try_from_slice_unchecked::<MovieAccountState>(&pda_account.data.borrow()).unwrap();
+        try_from_slice_unchecked::<StudentIntroState>(&pda_account.data.borrow()).unwrap();
     msg!("borrowed account data");
 
-    account_data.title = title;
-    account_data.rating = rating;
-    account_data.description = description;
+    account_data.name = name;
+    account_data.message = message;
     account_data.is_initialized = true;
 
     msg!("serializing account");
