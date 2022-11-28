@@ -13,8 +13,8 @@ pub fn process_instruction(
     let clock = Clock::get()?;
     let s = String::from("Hello");
     let arr = [
-        "Hello",
-        "Welcome",
+        "Hello!",
+        "Welcome!",
         "Greetings!",
         "Salutatons!",
         "Good day!",
