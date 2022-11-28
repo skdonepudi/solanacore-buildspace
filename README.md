@@ -2,3 +2,4 @@
 
 - [Core 1](https://github.com/skdonepudi/solanacore-buildspace/tree/main/Core%2001) 
 - [Core 2](https://github.com/skdonepudi/solanacore-buildspace/tree/main/Core%2002)
+- [Core 3](https://github.com/skdonepudi/solanacore-buildspace/tree/main/Core%2003)
