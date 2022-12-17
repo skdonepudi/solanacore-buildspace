@@ -57,9 +57,8 @@ pub fn add_movie_review(
 
     let initializer = next_account_info(account_info_iter)?;
     let pda_account = next_account_info(account_info_iter)?;
-    let system_program = next_account_info(account_info_iter)?;
-    // New account to store comment count
     let pda_counter = next_account_info(account_info_iter)?;
+    let system_program = next_account_info(account_info_iter)?;
 
     if !initializer.is_signer {
         msg!("Missing required signature");
