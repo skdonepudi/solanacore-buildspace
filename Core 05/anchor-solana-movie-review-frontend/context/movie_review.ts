@@ -1,0 +1,355 @@
+export type MovieReview = {
+  version: "0.1.0"
+  name: "movie_review"
+  instructions: [
+    {
+      name: "addMovieReview"
+      accounts: [
+        {
+          name: "movieReview"
+          isMut: true
+          isSigner: false
+        },
+        {
+          name: "movieCommentCounter"
+          isMut: true
+          isSigner: false
+        },
+        {
+          name: "initializer"
+          isMut: true
+          isSigner: true
+        },
+        {
+          name: "systemProgram"
+          isMut: false
+          isSigner: false
+        }
+      ]
+      args: [
+        {
+          name: "title"
+          type: "string"
+        },
+        {
+          name: "description"
+          type: "string"
+        },
+        {
+          name: "rating"
+          type: "u8"
+        }
+      ]
+    },
+    {
+      name: "addComment"
+      accounts: [
+        {
+          name: "movieComment"
+          isMut: true
+          isSigner: false
+        },
+        {
+          name: "movieReview"
+          isMut: false
+          isSigner: false
+        },
+        {
+          name: "movieCommentCounter"
+          isMut: true
+          isSigner: false
+        },
+        {
+          name: "initializer"
+          isMut: true
+          isSigner: true
+        },
+        {
+          name: "systemProgram"
+          isMut: false
+          isSigner: false
+        }
+      ]
+      args: [
+        {
+          name: "comment"
+          type: "string"
+        }
+      ]
+    },
+    {
+      name: "updateMovieReview"
+      accounts: [
+        {
+          name: "movieReview"
+          isMut: true
+          isSigner: false
+        },
+        {
+          name: "initializer"
+          isMut: true
+          isSigner: true
+        },
+        {
+          name: "systemProgram"
+          isMut: false
+          isSigner: false
+        }
+      ]
+      args: [
+        {
+          name: "title"
+          type: "string"
+        },
+        {
+          name: "description"
+          type: "string"
+        },
+        {
+          name: "rating"
+          type: "u8"
+        }
+      ]
+    }
+  ]
+  accounts: [
+    {
+      name: "movieAccountState"
+      type: {
+        kind: "struct"
+        fields: [
+          {
+            name: "reviewer"
+            type: "publicKey"
+          },
+          {
+            name: "rating"
+            type: "u8"
+          },
+          {
+            name: "title"
+            type: "string"
+          },
+          {
+            name: "description"
+            type: "string"
+          }
+        ]
+      }
+    },
+    {
+      name: "movieCommentCounter"
+      type: {
+        kind: "struct"
+        fields: [
+          {
+            name: "counter"
+            type: "u64"
+          }
+        ]
+      }
+    },
+    {
+      name: "movieComment"
+      type: {
+        kind: "struct"
+        fields: [
+          {
+            name: "review"
+            type: "publicKey"
+          },
+          {
+            name: "commenter"
+            type: "publicKey"
+          },
+          {
+            name: "comment"
+            type: "string"
+          },
+          {
+            name: "count"
+            type: "u64"
+          }
+        ]
+      }
+    }
+  ]
+}
+
+export const IDL: MovieReview = {
+  version: "0.1.0",
+  name: "movie_review",
+  instructions: [
+    {
+      name: "addMovieReview",
+      accounts: [
+        {
+          name: "movieReview",
+          isMut: true,
+          isSigner: false,
+        },
+        {
+          name: "movieCommentCounter",
+          isMut: true,
+          isSigner: false,
+        },
+        {
+          name: "initializer",
+          isMut: true,
+          isSigner: true,
+        },
+        {
+          name: "systemProgram",
+          isMut: false,
+          isSigner: false,
+        },
+      ],
+      args: [
+        {
+          name: "title",
+          type: "string",
+        },
+        {
+          name: "description",
+          type: "string",
+        },
+        {
+          name: "rating",
+          type: "u8",
+        },
+      ],
+    },
+    {
+      name: "addComment",
+      accounts: [
+        {
+          name: "movieComment",
+          isMut: true,
+          isSigner: false,
+        },
+        {
+          name: "movieReview",
+          isMut: false,
+          isSigner: false,
+        },
+        {
+          name: "movieCommentCounter",
+          isMut: true,
+          isSigner: false,
+        },
+        {
+          name: "initializer",
+          isMut: true,
+          isSigner: true,
+        },
+        {
+          name: "systemProgram",
+          isMut: false,
+          isSigner: false,
+        },
+      ],
+      args: [
+        {
+          name: "comment",
+          type: "string",
+        },
+      ],
+    },
+    {
+      name: "updateMovieReview",
+      accounts: [
+        {
+          name: "movieReview",
+          isMut: true,
+          isSigner: false,
+        },
+        {
+          name: "initializer",
+          isMut: true,
+          isSigner: true,
+        },
+        {
+          name: "systemProgram",
+          isMut: false,
+          isSigner: false,
+        },
+      ],
+      args: [
+        {
+          name: "title",
+          type: "string",
+        },
+        {
+          name: "description",
+          type: "string",
+        },
+        {
+          name: "rating",
+          type: "u8",
+        },
+      ],
+    },
+  ],
+  accounts: [
+    {
+      name: "movieAccountState",
+      type: {
+        kind: "struct",
+        fields: [
+          {
+            name: "reviewer",
+            type: "publicKey",
+          },
+          {
+            name: "rating",
+            type: "u8",
+          },
+          {
+            name: "title",
+            type: "string",
+          },
+          {
+            name: "description",
+            type: "string",
+          },
+        ],
+      },
+    },
+    {
+      name: "movieCommentCounter",
+      type: {
+        kind: "struct",
+        fields: [
+          {
+            name: "counter",
+            type: "u64",
+          },
+        ],
+      },
+    },
+    {
+      name: "movieComment",
+      type: {
+        kind: "struct",
+        fields: [
+          {
+            name: "review",
+            type: "publicKey",
+          },
+          {
+            name: "commenter",
+            type: "publicKey",
+          },
+          {
+            name: "comment",
+            type: "string",
+          },
+          {
+            name: "count",
+            type: "u64",
+          },
+        ],
+      },
+    },
+  ],
+}
