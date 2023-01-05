@@ -16,12 +16,12 @@ pub struct OpenLootbox<'info> {
     pub system_program: Program<'info, System>,
     pub token_program: Program<'info, Token>,
     // TESTING - Uncomment the next line during testing
-    #[account(mut)]
+    // #[account(mut)]
     // TESTING - Comment out the next three lines during testing
-    // #[account(
-    //       mut,
-    //       address="D7F9JnGcjxQwz9zEQmasksX1VrwFcfRKu8Vdqrk2enHR".parse::<Pubkey>().unwrap()
-    //   )]
+    #[account(
+          mut,
+          address="3P4RTJzo9q4JDyamfZEZqDcB1X2KvL2XwFnbghQb2Hdh".parse::<Pubkey>().unwrap()
+      )]
     pub stake_mint: Account<'info, Mint>,
     #[account(
         mut,
@@ -37,14 +37,14 @@ pub struct OpenLootbox<'info> {
     #[account(
         mut,
         // TESTING - Comment out these seeds for testing
-        // seeds = [
-        //     user.key().as_ref(),
-        // ],
-        // TESTING - Uncomment these seeds for testing
         seeds = [
-            vrf.key().as_ref(),
-            user.key().as_ref()
+            user.key().as_ref(),
         ],
+        // TESTING - Uncomment these seeds for testing
+        // seeds = [
+        //     vrf.key().as_ref(),
+        //     user.key().as_ref()
+        // ],
         bump = state.load()?.bump,
         has_one = vrf @ LootboxError::InvalidVrfAccount
     )]
@@ -103,7 +103,7 @@ pub struct StakingProgram;
 
 impl anchor_lang::Id for StakingProgram {
     fn id() -> Pubkey {
-        "D7F9JnGcjxQwz9zEQmasksX1VrwFcfRKu8Vdqrk2enHR"
+        "gWgQf6CvNpP2VZ1Rm4xM3NiSp9NUcArx2VWTebycuMv"
             .parse::<Pubkey>()
             .unwrap()
     }
@@ -114,26 +114,6 @@ impl OpenLootbox<'_> {
         if ctx.accounts.lootbox_pointer.available_lootbox == 0 {
             ctx.accounts.lootbox_pointer.available_lootbox = 10;
         }
-        msg!(
-            "Available lootbox: {}",
-            ctx.accounts.lootbox_pointer.available_lootbox
-        );
-        msg!("Box number: {}", box_number);
-        msg!("Total earned: {}", ctx.accounts.stake_state.total_earned);
-        msg!(
-            "Available lootbox: {}",
-            ctx.accounts.lootbox_pointer.available_lootbox
-        );
-        require!(
-            ctx.accounts.stake_state.total_earned >= box_number
-                && ctx.accounts.lootbox_pointer.available_lootbox == box_number,
-            LootboxError::InvalidLootbox
-        );
-
-        require!(
-            !ctx.accounts.lootbox_pointer.randomness_requested,
-            LootboxError::RandomnessAlreadyRequested
-        );
 
         token::burn(
             CpiContext::new(
@@ -172,10 +152,10 @@ impl OpenLootbox<'_> {
 
         let payer = ctx.accounts.user.key();
         // TESTING - uncomment the following during tests
-        let vrf = ctx.accounts.vrf.key();
-        let state_seeds: &[&[&[u8]]] = &[&[vrf.as_ref(), payer.as_ref(), &[bump]]];
+        // let vrf = ctx.accounts.vrf.key();
+        // let state_seeds: &[&[&[u8]]] = &[&[vrf.as_ref(), payer.as_ref(), &[bump]]];
         // TESTING - comment out the next line during tests
-        // let state_seeds: &[&[&[u8]]] = &[&[payer.as_ref(), &[bump]]];
+        let state_seeds: &[&[&[u8]]] = &[&[payer.as_ref(), &[bump]]];
 
         msg!("requesting randomness");
         vrf_request_randomness.invoke_signed(

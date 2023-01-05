@@ -43,7 +43,7 @@ const Connected: FC = () => {
     if (!metaplex || !walletAdapter.publicKey) return
 
     try {
-      const candymachine = await metaplex
+      const candyMachine = await metaplex
         .candyMachines()
         .findByAddress({
           address: new PublicKey(
@@ -61,7 +61,7 @@ const Connected: FC = () => {
       const nft = nfts.find(
         (nft) =>
           nft.collection?.address.toBase58() ===
-          candymachine.collectionMintAddress?.toBase58()
+          candyMachine.collectionMintAddress?.toBase58()
       )
       if (nft?.model === "metadata") {
         const metadata = await (await fetch(nft.uri)).json()
@@ -83,9 +83,15 @@ const Connected: FC = () => {
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = useCallback(
     async (event) => {
+      console.log("clicked")
       if (event.defaultPrevented) return
 
-      if (!walletAdapter.connected || !candyMachine) {
+      if (!walletAdapter.connected) {
+        console.log("not connected")
+        return
+      }
+      if ( !candyMachine) {
+        console.log("no candy machine")
         return
       }
 

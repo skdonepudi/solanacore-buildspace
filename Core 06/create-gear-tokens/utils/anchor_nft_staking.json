@@ -286,6 +286,10 @@
             "type": "i64"
           },
           {
+            "name": "totalEarned",
+            "type": "u64"
+          },
+          {
             "name": "userPubkey",
             "type": "publicKey"
           },

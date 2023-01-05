@@ -286,6 +286,10 @@ export type AnchorNftStaking = {
             "type": "i64"
           },
           {
+            "name": "totalEarned",
+            "type": "u64"
+          },
+          {
             "name": "userPubkey",
             "type": "publicKey"
           },
@@ -624,6 +628,10 @@ export const IDL: AnchorNftStaking = {
           {
             "name": "lastStakeRedeem",
             "type": "i64"
+          },
+          {
+            "name": "totalEarned",
+            "type": "u64"
           },
           {
             "name": "userPubkey",

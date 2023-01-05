@@ -12,14 +12,20 @@ export async function getStakeAccount(
     program.programId
   );
 
-  const account = await program.account.userStakeInfo.fetch(pda);
-  return new StakeAccount(account);
+  try {
+    const account = await program.account.userStakeInfo.fetch(pda);
+    return new StakeAccount(account);
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
 }
 
 export class StakeAccount {
   tokenAccount: PublicKey;
   stakeStartTime: BN;
   lastStakeRedeem: BN;
+  totalEarned: BN;
   stakeState: { staked: boolean; unstaked: boolean };
   isInitialized: boolean;
 
@@ -27,12 +33,14 @@ export class StakeAccount {
     tokenAccount: PublicKey;
     stakeStartTime: BN;
     lastStakeRedeem: BN;
+    totalEarned: BN;
     stakeState: { staked: boolean; unstaked: boolean };
     isInitialized: boolean;
   }) {
     this.tokenAccount = params.tokenAccount;
     this.stakeStartTime = params.stakeStartTime;
     this.lastStakeRedeem = params.lastStakeRedeem;
+    this.totalEarned = params.totalEarned;
     this.stakeState = params.stakeState;
     this.isInitialized = params.isInitialized;
   }
